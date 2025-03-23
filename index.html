@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="com">
 <head>
@@ -24,28 +23,25 @@
 
         /* Layout Foto */
         .photo-container {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            display: flex;
             gap: 15px;
             margin-top: 20px;
-        }
-
-        /* Frame berbentuk hati */
-        .heart-frame {
-            position: relative;
-            width: 120px;
-            height: 120px;
-            display: flex;
+            flex-wrap: wrap;
             justify-content: center;
-            align-items: center;
-            overflow: hidden;
         }
 
-        .heart-frame img {
-            width: 100%;
-            height: 100%;
+        /* Frame foto kembali ke bentuk semula */
+        .photo-container img {
+            width: 100px;
+            height: 100px;
+            border-radius: 5px;
             object-fit: cover;
-            clip-path: path("M60,10 C80,-20 120,20 60,80 C0,20 40,-20 60,10");
+            transition: transform 0.3s ease-in-out;
+        }
+
+        /* Efek hover */
+        .photo-container img:hover {
+            transform: scale(1.1);
         }
 
         /* Animasi teks */
@@ -80,10 +76,10 @@
 
     <!-- Tata letak foto -->
     <div class="photo-container">
-        <div class="heart-frame"><img src="gambar.jpg" alt="Keysia"></div>
-        <div class="heart-frame"><img src="gambar2.jpg" alt="Keysia"></div>
-        <div class="heart-frame"><img src="gambar3.jpg" alt="Keysia"></div>
-        <div class="heart-frame"><img src="gambar4.jpg" alt="Keysia"></div>
+        <img src="gambar.jpg" alt="Keysia">
+        <img src="gambar2.jpg" alt="Keysia">
+        <img src="gambar3.jpg" alt="Keysia">
+        <img src="gambar4.jpg" alt="Keysia">
     </div>
 
     <!-- Hati bergerak -->
@@ -105,7 +101,7 @@
 
         setInterval(createHeart, 500);
 
-        // Play musik saat user pertama kali berinteraksi
+        // Play musik setelah user klik layar
         document.addEventListener("click", function() {
             const music = document.getElementById("background-music");
             music.play();
