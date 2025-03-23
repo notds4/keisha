@@ -1,3 +1,5 @@
+
+<!DOCTYPE html>
 <html lang="com">
 <head>
     <meta charset="UTF-8">
@@ -7,28 +9,107 @@
         body {
             text-align: center;
             font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
+            background: linear-gradient(to right, #ff9a9e, #fad0c4); /* Gradasi pink lembut */
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
-        h1 {
-            color: #ff69b4;
+        h1, h2 {
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 2s ease-in-out infinite alternate;
         }
-        h2 {
-            color: #ff69b4;   
+
+        /* Layout Foto */
+        .photo-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 20px;
         }
-        img {
-            width: 100px;
-            border-radius: 5px;
-            margin-top: 10px;
+
+        /* Frame berbentuk hati */
+        .heart-frame {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .heart-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            clip-path: path("M60,10 C80,-20 120,20 60,80 C0,20 40,-20 60,10");
+        }
+
+        /* Animasi teks */
+        @keyframes fadeIn {
+            0% { opacity: 0.5; transform: scale(0.9); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        /* Animasi hati bergerak */
+        .heart {
+            position: absolute;
+            color: red;
+            font-size: 20px;
+            animation: floatUp 3s linear infinite;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(-200px) scale(1.5); opacity: 0; }
         }
     </style>
 </head>
 <body>
     <h1>Good morning sayang</h1>
-    <h2>i love you</h2>
-    <h3></h3>
-    <img src="gambar.jpg" alt="Keysia">
-    <img src="gambar2.jpg" alt="Keysia">
-    <img src="gambar3.jpg" alt="Keysia">
-    <img src="gambar4.jpg" alt="Keysia">
-    </body>
+    <h2>I love you</h2>
+
+    <!-- Musik romantis -->
+    <audio id="background-music" autoplay loop>
+        <source src="musik.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <!-- Tata letak foto -->
+    <div class="photo-container">
+        <div class="heart-frame"><img src="gambar.jpg" alt="Keysia"></div>
+        <div class="heart-frame"><img src="gambar2.jpg" alt="Keysia"></div>
+        <div class="heart-frame"><img src="gambar3.jpg" alt="Keysia"></div>
+        <div class="heart-frame"><img src="gambar4.jpg" alt="Keysia"></div>
+    </div>
+
+    <!-- Hati bergerak -->
+    <script>
+        function createHeart() {
+            const heart = document.createElement("div");
+            heart.classList.add("heart");
+            heart.innerHTML = "❤️";
+            heart.style.left = Math.random() * 100 + "vw";
+            heart.style.top = "100vh";
+            heart.style.position = "fixed";
+            heart.style.animationDuration = Math.random() * 3 + 2 + "s";
+            document.body.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 3000);
+        }
+
+        setInterval(createHeart, 500);
+
+        // Play musik saat user pertama kali berinteraksi
+        document.addEventListener("click", function() {
+            const music = document.getElementById("background-music");
+            music.play();
+        });
+    </script>
+</body>
 </html>
