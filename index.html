@@ -1,112 +1,229 @@
 <!DOCTYPE html>
-<html lang="com">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Keysia Cantik</title>
+    <title>Game Tebak-Tebakan</title>
     <style>
         body {
-            text-align: center;
             font-family: Arial, sans-serif;
-            background: linear-gradient(to right, #ff9a9e, #fad0c4); /* Gradasi pink lembut */
+            text-align: center;
+            margin-top: 50px;
+            background-color: #f8c8d7; /* Pink pastel background */
             height: 100vh;
+            margin: 0;
             display: flex;
-            flex-direction: column;
-            align-items: center;
             justify-content: center;
+            align-items: center;
+            position: relative;
         }
-        h1, h2 {
-            color: white;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-            animation: fadeIn 2s ease-in-out infinite alternate;
+        #question {
+            font-size: 22px;
+            margin-bottom: 20px;
         }
-
-        /* Layout Foto */
-        .photo-container {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr); /* 2 kolom per baris */
-            gap: 20px;
+        input, button {
+            padding: 10px;
+            font-size: 16px;
+        }
+        #result {
             margin-top: 20px;
+            font-weight: bold;
         }
-
-        /* Frame foto lebih besar */
-        .photo-container img {
-            width: 150px;
-            height: 150px;
-            border-radius: 10px;
-            object-fit: cover;
-            transition: transform 0.3s ease-in-out;
-        }
-
-        /* Efek hover */
-        .photo-container img:hover {
-            transform: scale(1.1);
-        }
-
-        /* Animasi teks */
-        @keyframes fadeIn {
-            0% { opacity: 0.5; transform: scale(0.9); }
-            100% { opacity: 1; transform: scale(1); }
-        }
-
-        /* Animasi hati bergerak */
-        .heart {
+        #lives {
             position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 24px;
             color: red;
+        }
+        #restart {
+            margin-top: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
             font-size: 20px;
-            animation: floatUp 3s linear infinite;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            display: none;
+            cursor: pointer;
+        }
+        #restart:hover {
+            background-color: #45a049;
         }
 
-        @keyframes floatUp {
-            0% { transform: translateY(0) scale(1); opacity: 1; }
-            100% { transform: translateY(-200px) scale(1.5); opacity: 0; }
+        /* Tema romantis pada input jawaban */
+        input {
+            width: 80%;
+            padding: 15px;
+            font-size: 18px;
+            border: 2px solid #ff80ab; /* Pink border */
+            border-radius: 25px;
+            background-color: #ffe6f1; /* Soft pink background */
+            outline: none;
+            color: #ff3366; /* Red-pink text color */
+            text-align: center;
+        }
+        input::placeholder {
+            color: #ff3366; /* Red-pink placeholder */
+        }
+        input:focus {
+            border-color: #ff3366; /* Highlight border on focus */
+            background-color: #fff0f5; /* Light pink background on focus */
+        }
+
+        /* Tema romantis pada tombol Kirim */
+        button {
+            width: 200px;
+            padding: 15px;
+            font-size: 18px;
+            border-radius: 30px;
+            background-color: #ff80ab; /* Soft pink background */
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #ff3366; /* Red-pink when hovered */
+        }
+
+        /* Animasi patah hati pada nyawa */
+        @keyframes breakHeart {
+            0% {
+                transform: scale(1);
+                color: red;
+            }
+            50% {
+                transform: scale(0.5) rotate(30deg);
+                color: #ff3366; /* Red-pink */
+            }
+            100% {
+                transform: scale(0) rotate(-30deg);
+                color: #ff80ab; /* Light pink */
+            }
+        }
+
+        .heart-broken {
+            animation: breakHeart 0.5s ease-out;
+        }
+
+        /* Mobile responsive */
+        @media (max-width: 600px) {
+            body {
+                flex-direction: column;
+                padding: 10px;
+            }
+            #question {
+                font-size: 18px;
+            }
+            input, button {
+                width: 100%;
+                padding: 15px;
+                font-size: 18px;
+            }
+            #lives {
+                font-size: 20px;
+                top: 10px;
+                right: 10px;
+            }
+            #restart {
+                width: 50px;
+                height: 50px;
+                font-size: 18px;
+            }
         }
     </style>
 </head>
 <body>
-    <h1>Good morning sayang</h1>
-    <h2>I love you</h2>
 
-    <!-- Musik romantis -->
-    <audio id="background-music" autoplay loop>
-        <source src="musik.mp3" type="audio/mpeg">
-        Your browser does not support the audio element.
-    </audio>
+    <h1>Game Tebak-Tebakan</h1>
+    <div id="question">Loading pertanyaan...</div>
+    <input type="text" id="answer" placeholder="Jawabanmu...">
+    <button onclick="cekJawaban()">Kirim</button>
 
-    <!-- Tata letak foto (hanya 5 foto) -->
-    <div class="photo-container">
-        <img src="gambar.jpg" alt="Keysia">
-        <img src="gambar2.jpg" alt="Keysia">
-        <img src="gambar3.jpg" alt="Keysia">
-        <img src="gambar4.jpg" alt="Keysia">
-        <img src="gambar5.jpg" alt="Keysia">
-        <img src="gambar6.jpg" alt="Keysia">
-    </div>
+    <div id="lives"></div>
+    <div id="result"></div>
+    <button id="restart" onclick="mulaiLagi()">&#x21bb;</button>
 
-    <!-- Hati bergerak -->
     <script>
-        function createHeart() {
-            const heart = document.createElement("div");
-            heart.classList.add("heart");
-            heart.innerHTML = "❤️";
-            heart.style.left = Math.random() * 100 + "vw";
-            heart.style.top = "100vh";
-            heart.style.position = "fixed";
-            heart.style.animationDuration = Math.random() * 3 + 2 + "s";
-            document.body.appendChild(heart);
+        const soal = [
+            { tanya: "Aku putih dan keluar dari sapi. Apakah aku?", jawab: "susu" },
+            { tanya: "Aku bulat dan digunakan dalam sepak bola. Siapakah aku?", jawab: "bola" },
+            { tanya: "Aku selalu datang di malam hari dan bersinar. Apakah aku?", jawab: "bulan" },
+            { tanya: "Aku berwarna hijau dan bisa dimakan. Apakah aku?", jawab: "sayur" },
+            { tanya: "Aku punya banyak cabang tapi bukan pohon. Apakah aku?", jawab: "jalan" }
+        ];
 
-            setTimeout(() => {
-                heart.remove();
-            }, 3000);
+        let skor, indeks, nyawa;
+
+        function mulaiGame() {
+            skor = 0;
+            indeks = 0;
+            nyawa = 3;
+            document.getElementById('answer').style.display = "inline-block";
+            document.querySelector('button').style.display = "inline-block";
+            document.getElementById('restart').style.display = "none";
+            tampilkanPertanyaan();
         }
 
-        setInterval(createHeart, 500);
+        function tampilkanPertanyaan() {
+            if (indeks < soal.length && nyawa > 0) {
+                document.getElementById('question').textContent = soal[indeks].tanya;
+                document.getElementById('answer').value = '';
+                document.getElementById('result').textContent = '';
+                tampilkanNyawa();
+            } else if (nyawa <= 0) {
+                document.getElementById('question').textContent = "Game Over!";
+                document.getElementById('result').textContent = `Skor kamu: ${skor} dari ${soal.length}`;
+                document.getElementById('answer').style.display = "none";
+                document.querySelector('button').style.display = "none";
+                document.getElementById('restart').style.display = "inline-block";
+            } else {
+                document.getElementById('question').textContent = "Selamat! Kamu selesai!";
+                document.getElementById('result').textContent = `Skor akhir: ${skor} dari ${soal.length}`;
+                document.getElementById('answer').style.display = "none";
+                document.querySelector('button').style.display = "none";
+                document.getElementById('restart').style.display = "inline-block";
+            }
+        }
 
-        // Play musik setelah user klik layar
-        document.addEventListener("click", function() {
-            const music = document.getElementById("background-music");
-            music.play();
-        });
+        function tampilkanNyawa() {
+            let hearts = "";
+            for (let i = 0; i < nyawa; i++) {
+                hearts += "❤️ ";
+            }
+            document.getElementById('lives').innerHTML = hearts;
+        }
+
+        function cekJawaban() {
+            let jawaban = document.getElementById('answer').value.trim().toLowerCase();
+            if (jawaban === soal[indeks].jawab) {
+                skor++;
+                indeks++;
+                if (indeks >= soal.length) {
+                    setTimeout(() => {
+                        window.location.href = "https://notds4.github.io/selamat-ulang-tahun-sayang-/";  // Redirect to the URL after completion
+                    }, 1000);  // Delay 1 second before redirect
+                } else {
+                    tampilkanPertanyaan();
+                }
+            } else {
+                nyawa--;
+                document.getElementById('lives').classList.add("heart-broken");
+                setTimeout(() => {
+                    document.getElementById('lives').classList.remove("heart-broken");
+                }, 500);  // Menghapus animasi setelah selesai
+                tampilkanPertanyaan();
+            }
+        }
+
+        function mulaiLagi() {
+            mulaiGame();
+        }
+
+        window.onload = mulaiGame;
     </script>
+
 </body>
 </html>
