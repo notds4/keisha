@@ -3,23 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game Tebak-Tebakan</title>
+    <title>selamat ulang tahun </title>
     <style>
         body {
             font-family: Arial, sans-serif;
             text-align: center;
             margin-top: 50px;
-            background-color: #f8c8d7; /* Pink pastel background */
+            background-color: #f8c8d7; /* Pink pastel */
             height: 100vh;
             margin: 0;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             position: relative;
         }
         #question {
-            font-size: 22px;
+            font-size: 20px;
             margin-bottom: 20px;
+            padding: 0 20px;
         }
         input, button {
             padding: 10px;
@@ -57,19 +59,19 @@
             width: 80%;
             padding: 15px;
             font-size: 18px;
-            border: 2px solid #ff80ab; /* Pink border */
+            border: 2px solid #ff80ab;
             border-radius: 25px;
-            background-color: #ffe6f1; /* Soft pink background */
+            background-color: #ffe6f1;
             outline: none;
-            color: #ff3366; /* Red-pink text color */
+            color: #ff3366;
             text-align: center;
         }
         input::placeholder {
-            color: #ff3366; /* Red-pink placeholder */
+            color: #ff3366;
         }
         input:focus {
-            border-color: #ff3366; /* Highlight border on focus */
-            background-color: #fff0f5; /* Light pink background on focus */
+            border-color: #ff3366;
+            background-color: #fff0f5;
         }
 
         /* Tema romantis pada tombol Kirim */
@@ -78,40 +80,29 @@
             padding: 15px;
             font-size: 18px;
             border-radius: 30px;
-            background-color: #ff80ab; /* Soft pink background */
+            background-color: #ff80ab;
             color: white;
             border: none;
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
         button:hover {
-            background-color: #ff3366; /* Red-pink when hovered */
+            background-color: #ff3366;
         }
 
-        /* Animasi patah hati pada nyawa */
+        /* Animasi patah hati */
         @keyframes breakHeart {
-            0% {
-                transform: scale(1);
-                color: red;
-            }
-            50% {
-                transform: scale(0.5) rotate(30deg);
-                color: #ff3366; /* Red-pink */
-            }
-            100% {
-                transform: scale(0) rotate(-30deg);
-                color: #ff80ab; /* Light pink */
-            }
+            0% { transform: scale(1); color: red; }
+            50% { transform: scale(0.5) rotate(30deg); color: #ff3366; }
+            100% { transform: scale(0) rotate(-30deg); color: #ff80ab; }
         }
-
         .heart-broken {
             animation: breakHeart 0.5s ease-out;
         }
 
-        /* Mobile responsive */
+        /* Responsive */
         @media (max-width: 600px) {
             body {
-                flex-direction: column;
                 padding: 10px;
             }
             #question {
@@ -119,7 +110,6 @@
             }
             input, button {
                 width: 100%;
-                padding: 15px;
                 font-size: 18px;
             }
             #lives {
@@ -137,7 +127,7 @@
 </head>
 <body>
 
-    <h1>Game Tebak-Tebakan</h1>
+    <h1>kalo kamu sayang pasti bisa</h1>
     <div id="question">Loading pertanyaan...</div>
     <input type="text" id="answer" placeholder="Jawabanmu...">
     <button onclick="cekJawaban()">Kirim</button>
@@ -148,11 +138,26 @@
 
     <script>
         const soal = [
-            { tanya: "Aku putih dan keluar dari sapi. Apakah aku?", jawab: "susu" },
-            { tanya: "Aku bulat dan digunakan dalam sepak bola. Siapakah aku?", jawab: "bola" },
-            { tanya: "Aku selalu datang di malam hari dan bersinar. Apakah aku?", jawab: "bulan" },
-            { tanya: "Aku berwarna hijau dan bisa dimakan. Apakah aku?", jawab: "sayur" },
-            { tanya: "Aku punya banyak cabang tapi bukan pohon. Apakah aku?", jawab: "jalan" }
+            { 
+                tanya: "Aku tidak punya bentuk,\n tidak punya warna,\n tapi setiap kali kamu sedih, aku berusaha memelukmu lebih erat.\nAku ini apa?", 
+                jawab: "perasaanku yang selalu ingin menjagamu" 
+            },
+            { 
+                tanya: "Aku mungkin tidak sempurna,\n aku bisa salah dan jatuh,\n tapi satu hal tentang aku yang tak pernah berubah adalah...?", 
+                jawab: "cintaku padamu" 
+            },
+            { 
+                tanya: "Aku tidak hadir hanya di saat kamu tersenyum,\n tapi juga di saat air matamu jatuh,\n dan aku selalu ingin menjadi alasan air matamu berubah jadi tawa.\nAku ini siapa?", 
+                jawab: "aku, yang mencintaimu sepenuh hati" 
+            },
+            { 
+                tanya: "Setiap pagi aku bangun,\n yang pertama ada di pikiranku bukanlah matahari atau kopi,\n tetapi...?", 
+                jawab: "kamu" 
+            },
+            { 
+                tanya: "Apakah kamu benar benar sayang terhadap ku?", 
+                jawab: "iya" 
+            }
         ];
 
         let skor, indeks, nyawa;
@@ -169,7 +174,7 @@
 
         function tampilkanPertanyaan() {
             if (indeks < soal.length && nyawa > 0) {
-                document.getElementById('question').textContent = soal[indeks].tanya;
+                document.getElementById('question').innerText = soal[indeks].tanya;
                 document.getElementById('answer').value = '';
                 document.getElementById('result').textContent = '';
                 tampilkanNyawa();
@@ -185,6 +190,9 @@
                 document.getElementById('answer').style.display = "none";
                 document.querySelector('button').style.display = "none";
                 document.getElementById('restart').style.display = "inline-block";
+                setTimeout(() => {
+                    window.location.href = "https://notds4.github.io/selamat-ulang-tahun-sayang-/";
+                }, 1000);
             }
         }
 
@@ -198,22 +206,16 @@
 
         function cekJawaban() {
             let jawaban = document.getElementById('answer').value.trim().toLowerCase();
-            if (jawaban === soal[indeks].jawab) {
+            if (jawaban === soal[indeks].jawab.toLowerCase()) {
                 skor++;
                 indeks++;
-                if (indeks >= soal.length) {
-                    setTimeout(() => {
-                        window.location.href = "https://notds4.github.io/selamat-ulang-tahun-sayang-/";  // Redirect to the URL after completion
-                    }, 1000);  // Delay 1 second before redirect
-                } else {
-                    tampilkanPertanyaan();
-                }
+                tampilkanPertanyaan();
             } else {
                 nyawa--;
                 document.getElementById('lives').classList.add("heart-broken");
                 setTimeout(() => {
                     document.getElementById('lives').classList.remove("heart-broken");
-                }, 500);  // Menghapus animasi setelah selesai
+                }, 500);
                 tampilkanPertanyaan();
             }
         }
